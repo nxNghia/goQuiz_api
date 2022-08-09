@@ -2,6 +2,10 @@ package models
 
 import (
 	"goQuiz/main/entities"
+
+	"encoding/json"
+
+	"io/ioutil"
 )
 
 var listQuiz = make([]*entities.Quiz, 0)
@@ -29,4 +33,26 @@ func FindQuiz(id string) *entities.Quiz {
 
 func GetAllQuiz() []*entities.Quiz {
 	return listQuiz
+}
+
+func QuizInit() bool {
+	jsonFile, err := ioutil.ReadFile("../data/quizData.json")
+
+	if err == nil {
+		var result entities.Quizs
+
+		err2 := json.Unmarshal(jsonFile, &result)
+
+		if err2 == nil {
+			for i := 0; i < len(result.Quizs); i++ {
+				listQuiz = append(listQuiz, &result.Quizs[i])
+			}
+
+			return true
+		} else {
+			return false
+		}
+	}
+
+	return false
 }

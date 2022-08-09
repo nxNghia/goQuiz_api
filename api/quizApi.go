@@ -3,9 +3,7 @@ package api
 import (
 	"goQuiz/main/entities"
 
-	"encoding/json"
-
-	"io/ioutil"
+	"goQuiz/main/models"
 
 	"net/http"
 
@@ -13,19 +11,18 @@ import (
 )
 
 func GetAllQuiz(c *gin.Context) {
-	jsonFile, err := ioutil.ReadFile("../data/quizData.json")
+	quiz := models.GetAllQuiz()
 
-	if err == nil {
-		var result entities.Quizs
+	c.JSON(http.StatusOK, quiz)
+}
 
-		err2 := json.Unmarshal(jsonFile, &result)
+func CreateNewQuiz(c *gin.Context) {
+	var newQuiz entities.Quiz
 
-		if err2 == nil {
-			c.JSON(http.StatusOK, result)
-		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err2.Error()})
-		}
-	} else {
+	if err := c.BindJSON(&newQuiz); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+		models.CreateQuiz(&newQuiz)
+		c.JSON(http.StatusOK, newQuiz)
 	}
 }
