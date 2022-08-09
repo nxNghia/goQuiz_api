@@ -14,6 +14,7 @@ func main() {
 
 	router.POST("/create", api.CreateNewQuiz)
 	router.GET("/getAll", api.GetAllQuiz)
+	router.POST("/check", api.CheckAnswer)
 
 	router.Run(":8000")
 }

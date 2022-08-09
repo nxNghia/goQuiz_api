@@ -62,3 +62,15 @@ func QuizInit() bool {
 
 	return false
 }
+
+func CheckAnswer(answers []int) (int, int) {
+	rightAnswers := 0
+
+	for index, answer := range answers {
+		if answer == listQuiz[index].Answer {
+			rightAnswers++
+		}
+	}
+
+	return rightAnswers, len(answers)
+}
