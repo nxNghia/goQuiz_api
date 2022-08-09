@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"goQuiz/main/entities"
 
 	"encoding/json"
@@ -12,7 +14,7 @@ var listQuiz = make([]*entities.Quiz, 0)
 
 func CreateQuiz(quiz *entities.Quiz) bool {
 	if quiz.Id != "" && quiz.Answer != 0 && quiz.Content != "" && len(quiz.Option) != 0 {
-		if existedQuiz := FindQuiz(quiz.Id); existedQuiz != nil {
+		if existedQuiz := FindQuiz(quiz.Id); existedQuiz == nil {
 			listQuiz = append(listQuiz, quiz)
 			return true
 		}
@@ -36,7 +38,8 @@ func GetAllQuiz() []*entities.Quiz {
 }
 
 func QuizInit() bool {
-	jsonFile, err := ioutil.ReadFile("../data/quizData.json")
+	fmt.Println("init")
+	jsonFile, err := ioutil.ReadFile("./data/quizData.json")
 
 	if err == nil {
 		var result entities.Quizs
@@ -50,8 +53,11 @@ func QuizInit() bool {
 
 			return true
 		} else {
+			fmt.Println(err2.Error())
 			return false
 		}
+	} else {
+		fmt.Println(err.Error())
 	}
 
 	return false

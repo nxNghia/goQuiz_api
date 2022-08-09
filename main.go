@@ -1,9 +1,19 @@
 package main
 
 import (
-	"fmt"
+	"goQuiz/main/api"
+
+	"github.com/gin-gonic/gin"
+
+	"goQuiz/main/models"
 )
 
 func main() {
-	fmt.Println("Init")
+	models.QuizInit()
+	router := gin.Default()
+
+	router.POST("/create", api.CreateNewQuiz)
+	router.GET("/getAll", api.GetAllQuiz)
+
+	router.Run(":8000")
 }

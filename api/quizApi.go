@@ -8,10 +8,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+
+	"fmt"
 )
 
 func GetAllQuiz(c *gin.Context) {
 	quiz := models.GetAllQuiz()
+
+	fmt.Println(quiz)
 
 	c.JSON(http.StatusOK, quiz)
 }
@@ -23,6 +27,7 @@ func CreateNewQuiz(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	} else {
 		models.CreateQuiz(&newQuiz)
-		c.JSON(http.StatusOK, newQuiz)
+		quiz := models.GetAllQuiz()
+		c.JSON(http.StatusOK, quiz)
 	}
 }
