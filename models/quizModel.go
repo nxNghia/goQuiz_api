@@ -74,3 +74,12 @@ func CheckAnswer(answers []int) (int, int) {
 
 	return rightAnswers, len(answers)
 }
+
+func UpdateQuiz(newQuiz entities.Quiz) entities.Quiz {
+	return newQuiz
+}
+
+func RemoveQuiz(id string) bool {
+	// do something
+	return true
+}

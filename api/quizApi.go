@@ -42,5 +42,16 @@ func CheckAnswer(c *gin.Context) {
 
 		c.JSON(http.StatusOK, gin.H{"right": rightAnswers, "total": total})
 	}
+}
 
+func UpdateQuiz(c *gin.Context) {
+	var quiz entities.Quiz
+
+	if err := c.BindJSON(&quiz); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+		newQuiz := models.UpdateQuiz(quiz)
+
+		c.JSON(http.StatusOK, newQuiz)
+	}
 }
